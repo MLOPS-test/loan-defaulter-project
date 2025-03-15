@@ -1,1 +1,5 @@
-# loan-defaulter-project
+# Loan Defaulter Prediction
+
+## Workflow
+
+![Workflow](Workflow.png)
