@@ -1,6 +1,6 @@
 
 import pandas as pd
-from data_preprocess import home_ownership_mapping, loan_grade_mapping, default_on_file_mapping
+from custom_utils import home_ownership_mapping, loan_grade_mapping, default_on_file_mapping
 
 import joblib
 
