@@ -9,7 +9,7 @@ import gradio as gr
 from predict import loan_intent_encoder, make_prediction
 
 # Import mappings
-from data_preprocess import home_ownership_mapping, loan_grade_mapping, default_on_file_mapping
+from custom_utils import home_ownership_mapping, loan_grade_mapping, default_on_file_mapping
 
 
 # Input elements
