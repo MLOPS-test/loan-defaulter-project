@@ -1,7 +1,45 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv("dataset/credit_risk_dataset.csv")
+# df = pd.read_csv("dataset/credit_risk_dataset.csv")
+
+
+############## DVC related code START ############################
+
+import os
+
+# Provide credentials and save them as environment variables. Later, whenever needed, access the credentials using environment variables only.
+os.environ["GTLB_USERNAME"] = "yrajm1997"
+os.environ["GTLB_ACCESS_TOKEN"] = "glpat-x2RGSzjSFBVm8fThzJ47"
+os.environ["VM_PASSWORD"] = "S8QbhTQf"
+
+import dvc.api
+import pandas as pd
+
+gtlb_username = os.environ['GTLB_USERNAME']
+gtlb_access_token = os.environ['GTLB_ACCESS_TOKEN']
+
+repo_name = "loan-data-repo"     # Change as per your GitLab repository name
+
+repo_url = 'https://' + gtlb_username + ':' + gtlb_access_token + '@gitlab.com/' + gtlb_username + '/' + repo_name
+# print(repo_url)
+
+# Data version to retrieve
+data_revision = 'v1.1'
+
+# Configurations to access remote storage
+remote_config = {
+    'password': os.environ["VM_PASSWORD"]
+    }
+
+# Open data file using dvc-api and load the dataset
+with dvc.api.open('data/credit_risk_dataset.csv', repo=repo_url, rev=data_revision, remote_config=remote_config) as file:  #remote_config=remote_config) as file:
+    df = pd.read_csv(file)
+
+# print(df.tail())
+
+############## DVC related code END ############################
+
 
 # Handle missing values
 df['loan_int_rate'] = df['loan_int_rate'].fillna(df['loan_int_rate'].mean())
@@ -9,15 +47,13 @@ df['person_emp_length'] = df['person_emp_length'].fillna(df['person_emp_length']
 
 
 # Handle categorical columns
-home_ownership_mapping = {'MORTGAGE': 0, 'RENT': 1, 'OWN': 2, 'OTHER': 3}
-loan_grade_mapping = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6}
-default_on_file_mapping = {'N': 0, 'Y': 1}
+from custom_utils import home_ownership_mapping, loan_grade_mapping, default_on_file_mapping
 
 df['person_home_ownership'] = df['person_home_ownership'].map(home_ownership_mapping)
 df['loan_grade'] = df['loan_grade'].map(loan_grade_mapping)
 df['cb_person_default_on_file'] = df['cb_person_default_on_file'].map(default_on_file_mapping)
 
-# Label Encoder
+# Label Encoderdf
 from sklearn.preprocessing import LabelEncoder
 
 loan_intent_encoder = LabelEncoder()
