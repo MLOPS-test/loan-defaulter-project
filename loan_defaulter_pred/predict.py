@@ -5,7 +5,31 @@ from custom_utils import home_ownership_mapping, loan_grade_mapping, default_on_
 import joblib
 
 # Load model
-rf_model = joblib.load("trained_model/rf_model_loan_default_pred.pkl")
+# rf_model = joblib.load("trained_model/rf_model_loan_default_pred.pkl")
+
+################### MLflow related code START #################################
+
+import mlflow 
+import mlflow.pyfunc
+from custom_utils import mlflow_tracking_uri, registered_model_name
+
+mlflow.set_tracking_uri(mlflow_tracking_uri)
+
+# Create MLflow client
+client = mlflow.tracking.MlflowClient()
+
+# Load model via 'models'
+model_name = registered_model_name              #"loan-defaulter-pred-model"
+
+model_info = client.get_model_version_by_alias(name=model_name, alias="production")
+
+print(f'Model version fetched: {model_info.version}')
+
+rf_model = mlflow.pyfunc.load_model(model_uri = f"models:/{model_name}@production")
+
+# models:/loan-defaulter-pred-model@production
+################### MLflow related code END #################################
+
 
 # Load encoder
 loan_intent_encoder = joblib.load("trained_model/loan_intent_encoder.pkl")
