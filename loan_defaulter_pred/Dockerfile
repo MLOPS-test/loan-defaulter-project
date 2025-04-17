@@ -9,7 +9,7 @@ ADD requirements/ requirements/
 RUN pip install -r requirements/api_requirements.txt
 
 # all the related files .py
-ADD *.py .
+ADD *.py ./
 
 # expose the port where appl.is running
 EXPOSE 7860
