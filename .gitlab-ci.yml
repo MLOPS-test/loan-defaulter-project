@@ -91,7 +91,7 @@ deploy-job:      # This job runs in the deploy stage.
     - docker rm -f $CONT_NAME || true
 
     - echo "Run the Docker container"
-    - docker run -d -it -p 7860:7860 --name=$CONT_NAME $DOCKER_USER_NAME/$IMG_NAME:$IMG_TAG
+    - docker run -d -it -p 8080:8080 --name=$CONT_NAME $DOCKER_USER_NAME/$IMG_NAME:$IMG_TAG
 
     - echo "Application successfully deployed."
 
