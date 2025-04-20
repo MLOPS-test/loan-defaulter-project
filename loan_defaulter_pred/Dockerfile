@@ -16,7 +16,7 @@ EXPOSE 7860
 EXPOSE 8080
 
 # command to start the appl.
-CMD ["python", "app.py"]
+CMD ["python", "app.py2"]
 
 
 # docker build -t loan_default_pred .
